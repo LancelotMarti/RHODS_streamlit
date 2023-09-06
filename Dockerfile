@@ -1,6 +1,5 @@
 FROM python:3.9-slim
-WORKDIR /app
-COPY .. /app/
+COPY app.py
 RUN /usr/local/bin/python -m pip install --upgrade pip && \
     /usr/local/bin/pip3 install -r requirements.txt
 EXPOSE 8501
