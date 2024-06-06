@@ -22,7 +22,7 @@ jobs:
       - name: Update Tag
         run: |
           BRANCH=$(echo "${GITHUB_REF#refs/heads/}")
-          TAG="${BRANCH}"
+          TAG="${BRANCH}"-tag
 
           # Delete the local tag if it exists
           git tag -d $TAG || true
