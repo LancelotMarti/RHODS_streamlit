@@ -1,0 +1,37 @@
+name: Update Tags
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+jobs:
+  update-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Update Tag
+        run: |
+          BRANCH=$(echo "${GITHUB_REF#refs/heads/}")
+          TAG="${BRANCH}"
+
+          # Delete the local tag if it exists
+          git tag -d $TAG || true
+
+          # Delete the remote tag if it exists
+          git push origin :refs/tags/$TAG || true
+
+          # Create a new tag
+          git tag -a $TAG -m "Updated tag for $BRANCH branch"
+
+          # Push the tag to the remote repository
+          git push origin $TAG
